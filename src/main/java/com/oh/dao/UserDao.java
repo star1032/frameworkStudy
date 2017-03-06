@@ -9,7 +9,31 @@ import java.sql.SQLException;
 import com.oh.domain.User;
 
 public class UserDao {
-
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		UserDao dao = new UserDao();
+		
+		dao.deleteAll();
+		
+		dao.add(new User("1111", "해봉", "1111"));
+		
+		User getUser = dao.get("1111");
+		
+		System.out.println(getUser.getName());
+	}
+	
+	
+	public void deleteAll() throws ClassNotFoundException, SQLException{
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection c =DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.56:1521:XE", 
+				"yun",
+				"1111");
+		PreparedStatement ps= c.prepareStatement("DELETE FROM USERS");
+				
+		ps.executeUpdate();
+		ps.close();
+		c.close();
+	}
+	
 	public void add(User user) throws ClassNotFoundException, SQLException{
 		Class.forName("oracle.jdbc.driver.OracleDriver");
 		Connection c =DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.56:1521:XE", 
